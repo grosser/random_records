@@ -5,7 +5,6 @@ PROBLEM
 
 SOLUTION
 ========
- - count all records
  - grab x records from offset rand(count)
 
 INSTALL
