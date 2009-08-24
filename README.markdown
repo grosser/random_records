@@ -1,11 +1,15 @@
-PROBLEM
-=======
- - database :order=>'random' is slow
- - active record has no random build in
+Problem
+-------
+Database (e.g. MySql) :order=>'rand()' is slow.  
 
-SOLUTION
-========
- - Simplified: grab x records from offset rand(count)
+Solution
+--------
+<table cellpadding=4>
+<tr><th>Method</th><th align="left">Speed</th><th>Randomness</th><th>Duplicates</th></tr>
+<tr><td>1 cluster from random offset</td><td>fast</td><td>somewhat</td><td>no</td></tr>
+<tr><td>X times 1 record from random offset</td><td>slow for large X</td><td>total</td><td>possible</td></tr>
+<tr><td>n clusters of m record from random offset</td><td>fast</td><td>good</td><td>possible</td></tr>
+</table>
 
 INSTALL
 =======
@@ -14,14 +18,22 @@ INSTALL
 USAGE
 =====
 
+###Many in a single random cluster (no duplicates)
     Model.random(1) == [Model(id:322)]
     Model.random(3) == [Model(id:112),Model(id:113),Model(id:114)]
     Model.with_valid_email.random(3) == [Model(id:112),Model(id:113),Model(id:114)]
 
-    #finds records in random clusters (the smaller the slower)
+###Find in random clusters
+The smaller the slower (each cluster = 1 request)  
+May include duplicates so use `.uniq` on results.
     Model.random(3, :cluster_size=>1) == [Model(id:112),Model(id:98),Model(id:214)]
 
+###Find one
     Model.random == Model(id:234)
+
+TODO
+====
+ - prevent duplicates when finding in clusters (searching 9 of 10 -> many requests or tracking which offsets where already fetched)
  
 AUTHOR
 ======
