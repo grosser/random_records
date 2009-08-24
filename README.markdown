@@ -33,6 +33,7 @@ May include duplicates so use `.uniq` on results.
 
 TODO
 ====
+ - make into gem
  - prevent duplicates when finding in clusters (searching 9 of 10 -> many requests or tracking which offsets where already fetched)
  
 AUTHOR
