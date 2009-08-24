@@ -28,12 +28,14 @@ describe :random do
     User.random(9).uniq.size.should == 9
   end
 
-  it "finds sequentially from offset" do
+  it "finds from offset" do
+    users = User.random(9).map(&:id).sort
+    users.should == (users.first..users.last).to_a
+  end
+
+  it "randomizes results" do
     users = User.random(9).map(&:id)
-    users.each_with_index do |id,index|
-      next if index.zero?
-      id.should == (users[index-1] + 1)
-    end
+    users.sort.should_not == users
   end
 
   it "finds count records when requested >= count" do
@@ -55,9 +57,10 @@ describe :random do
     end
 
     it "finds in clusters" do
-      User.should_receive(:rand).with(User.count).and_return 2, 6
+      User.stub!(:rand).with().and_return rand()
+      User.stub!(:rand).with(User.count).and_return 2, 6
       users = User.random(4, :cluster_size=>2)
-      users.map(&:id).should == [3,4,7,8]
+      users.map(&:id).sort.should == [3,4,7,8]
     end
 
     it "does not find duplicates" do
@@ -68,9 +71,10 @@ describe :random do
     end
 
     it "finds when cluster overlaps results" do
+      User.should_receive(:rand).with().and_return 1,2
       User.should_receive(:rand).with(User.count).and_return 2, 6
       users = User.random(3, :cluster_size=>2)
-      users.map(&:id).should == [3,4,7]
+      users.map(&:id).should == [7,4,3]
     end
 
     it "finds when cluster is bigger than results" do

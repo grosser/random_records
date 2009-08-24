@@ -20,8 +20,8 @@ USAGE
 
 ###Many in a single random cluster (no duplicates)
     Model.random(1) == [Model(id:322)]
-    Model.random(3) == [Model(id:112),Model(id:113),Model(id:114)]
-    Model.with_valid_email.random(3) == [Model(id:112),Model(id:113),Model(id:114)]
+    Model.random(3) == [Model(id:113),Model(id:112),Model(id:114)]
+    Model.with_valid_email.random(3) == [Model(id:114),Model(id:112),Model(id:113)]
 
 ###Find in random clusters
 The smaller the slower (each cluster = 1 request)  

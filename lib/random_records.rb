@@ -14,7 +14,7 @@ class ActiveRecord::Base
       all += random_clustered(cluster_size, total, options)
     end
     
-    return_array ? all[0...num] : all[0]
+    return_array ? all[0...num].sort{rand()} : all[0]
   end
 
   def self.random_clustered(num, total, options)
