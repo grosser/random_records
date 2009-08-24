@@ -48,6 +48,46 @@ describe :random do
     User.first_5.random(9).size.should == 5
     User.first_5.random(4).size.should == 4
   end
+
+  describe "with cluster_size" do
+    it "finds the right amount" do
+      User.random(4, :cluster_size=>2).size.should == 4
+    end
+
+    it "finds in clusters" do
+      User.should_receive(:rand).with(User.count).and_return 2, 6
+      users = User.random(4, :cluster_size=>2)
+      users.map(&:id).should == [3,4,7,8]
+    end
+
+    it "does not find duplicates" do
+      pending
+      User.should_receive(:rand).with(User.count).and_return 2, 2, 6
+      users = User.random(4, :cluster_size=>2)
+      users.map(&:id).should == [3,4,7,8]
+    end
+
+    it "finds when cluster overlaps results" do
+      User.should_receive(:rand).with(User.count).and_return 2, 6
+      users = User.random(3, :cluster_size=>2)
+      users.map(&:id).should == [3,4,7]
+    end
+
+    it "finds when cluster is bigger than results" do
+      User.should_receive(:rand).with(User.count).and_return 2
+      users = User.random(1, :cluster_size=>2)
+      users.map(&:id).should == [3]
+    end
+
+    it "finds max when results are smaller than available" do
+      users = User.random(User.count+5, :cluster_size=>2)
+      users.size == User.count
+    end
+
+    it "raises if cluster_size is 0" do
+      lambda{User.random(1, :cluster_size=>0)}.should raise_error
+    end
+  end
 end
 
 describe 'when no records exist' do
