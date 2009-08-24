@@ -15,12 +15,12 @@ describe :random do
   end
 
   it "finds by offset from rand" do
-    User.expects(:rand).with(User.count).returns 3
+    User.should_receive(:rand).with(User.count).and_return 3
     User.random(1).should == [User.find(4)]
   end
 
   it "finds using the given count option" do
-    User.expects(:rand).with(3).returns 2
+    User.should_receive(:rand).with(3).and_return 2
     User.random(1,:count=>3).should == [User.find(3)]
   end
 
