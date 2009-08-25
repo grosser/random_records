@@ -1,5 +1,3 @@
-Problem
--------
 Database (e.g. MySql) :order=>'rand()' is slow.  
 
 Solution
@@ -18,22 +16,22 @@ INSTALL
 USAGE
 =====
 
-###Many in a single random cluster (no duplicates)
+###Find many in single random cluster (no duplicates)
     Model.random(1) == [Model(id:322)]
     Model.random(3) == [Model(id:113),Model(id:112),Model(id:114)]
     Model.with_valid_email.random(3) == [Model(id:114),Model(id:112),Model(id:113)]
 
-###Find in random clusters
+###Find many in many random clusters
 The smaller the slower (each cluster = 1 request)  
 May include duplicates so use `.uniq` on results.
     Model.random(3, :cluster_size=>1) == [Model(id:112),Model(id:98),Model(id:214)]
 
-###Find one
+###Find one random
     Model.random == Model(id:234)
+    Model.with_valid_email.random == Model(id:123)
 
 TODO
 ====
- - make into gem
  - prevent duplicates when finding in clusters (searching 9 of 10 -> many requests or tracking which offsets where already fetched)
  
 AUTHOR
