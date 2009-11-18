@@ -11,7 +11,10 @@ Solution
 
 INSTALL
 =======
-`script/plugin install git://github.com/grosser/random_records.git`
+ - As Rails plugin: ` script/plugin install git://github.com/grosser/random_records.git `
+ - As gem: ` sudo gem install random_records -s http://gemcutter.org `
+
+
 
 USAGE
 =====
