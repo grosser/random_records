@@ -1,3 +1,5 @@
+require 'active_record'
+
 class ActiveRecord::Base
   def self.random(num=nil,options={})
     return_array = !num.nil?
