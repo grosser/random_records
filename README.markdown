@@ -12,7 +12,7 @@ Solution
 INSTALL
 =======
  - As Rails plugin: ` script/plugin install git://github.com/grosser/random_records.git `
- - As gem: ` sudo gem install random_records `
+ - As gem: ` sudo gem install random_record `
 
 
 
